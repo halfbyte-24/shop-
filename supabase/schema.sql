@@ -326,7 +326,7 @@ USING (
 /*
 INSERT INTO shops (name, business_type, tagline, description)
 VALUES (
-    'Shoe Store Demo', 
+    'JANATA Shoe Store', 
     'Footwear Retail', 
     'Premium Shoes for Everyone', 
     'Welcome to our digital catalogue.'

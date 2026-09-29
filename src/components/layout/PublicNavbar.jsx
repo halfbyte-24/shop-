@@ -69,13 +69,13 @@ export default function PublicNavbar() {
   const isScrolledOrInner = scrolled || !isHomePage;
 
   return (
-    <header className={`store-navbar ${isScrolledOrInner ? 'store-navbar--scrolled' : ''}`}>
+    <header className="store-navbar">
       <div className="store-container">
         <div className="store-navbar__inner">
           
           {/* Logo / Shop Name */}
           <Link to="/" className="store-navbar__brand" onClick={handleLogoClick}>
-            <span>{shop?.name || 'Shoe Store'}</span>
+            <img src="/images/logo.png" alt={shop?.name || 'JANATA Shoe Store'} className="store-navbar__logo" />
           </Link>
 
           {/* Desktop Navigation */}

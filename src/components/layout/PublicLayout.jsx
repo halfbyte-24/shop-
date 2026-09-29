@@ -7,7 +7,7 @@ export default function PublicLayout() {
   const isHomePage = location.pathname === '/';
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'var(--color-bg-base)', color: 'var(--color-text-primary)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', color: 'var(--color-text-primary)' }}>
       <PublicNavbar />
       
       <main style={{ flex: '1 1 auto', paddingTop: isHomePage ? '0' : '80px' }}>

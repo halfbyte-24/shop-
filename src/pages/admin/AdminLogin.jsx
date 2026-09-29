@@ -101,7 +101,7 @@ export default function AdminLogin() {
           </div>
           
           <div className="login-title-primary">Welcome back</div>
-          <h1 className="login-title-secondary">Shoe Store Demo</h1>
+          <img src="/images/logo.png" alt="Janata Shoe Store" className="login-logo" style={{ margin: '0 auto 8px auto', display: 'block', maxHeight: '60px' }} />
           <p className="login-subtitle">Sign in to manage your catalogue</p>
 
           <form onSubmit={handleLogin} className="login-form">

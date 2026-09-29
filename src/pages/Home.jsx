@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Tag, Grid, LayoutGrid, Gem, Truck, Heart, MapPin } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { catalogueService } from '../services/catalogueService';
 import ProductCard from '../components/product/ProductCard';
 import { businessConfig } from '../config/businessConfig';
@@ -40,36 +41,19 @@ export default function Home() {
     fetchHomeData();
   }, []);
 
-  // Video playlist for the background
-  const heroVideos = [
-    '/videos/shoe-drop.mp4',
-    '/videos/sandal-carpet.mp4',
-    '/videos/clogs-angles.mp4'
-  ];
-  const [currentVideo, setCurrentVideo] = useState(0);
-
   return (
     <div className="home-page">
       
       {/* 2. Hero Section */}
       <section className="store-hero">
-        {/* Fallback image if videos haven't loaded or don't exist yet */}
-        <div className="store-hero__bg-image" style={{ backgroundImage: "url('/images/hero-shoes.jpg')" }}></div>
-        
-        {/* Looping Background Videos */}
-        <video
-          key={heroVideos[currentVideo]}
-          src={heroVideos[currentVideo]}
-          autoPlay
-          muted
-          playsInline
-          onEnded={() => setCurrentVideo((prev) => (prev + 1) % heroVideos.length)}
-          className="store-hero__bg-video"
-        />
-
         <div className="store-hero__overlay"></div>
-        <div className="store-container store-hero__content-wrap">
-          <div className="store-hero__content">
+        <div className="store-container store-hero__inner">
+          <motion.div 
+            className="store-hero__content"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
             <span className="store-hero__eyebrow">STEP INTO STYLE</span>
             <h1 className="store-hero__title">Step Into Something Better</h1>
             <p className="store-hero__text">
@@ -80,14 +64,14 @@ export default function Home() {
                 Explore Collections <ArrowRight size={20} style={{ marginLeft: '8px' }} />
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* 3. Shop By Category */}
       <section className="store-section">
         <div className="store-container">
-          <div className="store-section__header">
+          <div className="store-section__header store-section__header--center">
             <div>
               <h2 className="store-heading-2" style={{ marginBottom: '8px' }}>Shop By Category</h2>
               <p className="store-text-subtle">Find the right pair for every style and occasion.</p>
@@ -95,20 +79,34 @@ export default function Home() {
           </div>
           
           {!loading && categories.length > 0 ? (
-            <div className="category-scroll">
-              {categories.map((cat) => {
+            <motion.div 
+              className="category-scroll"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ staggerChildren: 0.1 }}
+            >
+              {categories.map((cat, index) => {
                 let Icon = Tag;
                 if (cat.name.toLowerCase().includes('sneaker')) Icon = LayoutGrid;
                 if (cat.name.toLowerCase().includes('formal')) Icon = Gem;
 
                 return (
-                  <Link key={cat.id} to={`/collections/${cat.slug}`} className="category-card">
-                    <Icon size={32} className="category-card__icon" />
-                    <span className="category-card__name">{cat.name}</span>
-                  </Link>
+                  <motion.div
+                    key={cat.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <Link to={`/collections/${cat.slug}`} className="category-card">
+                      <Icon size={32} className="category-card__icon" />
+                      <span className="category-card__name">{cat.name}</span>
+                    </Link>
+                  </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
           ) : !loading ? (
             <div className="empty-state-card">
               <p>More categories coming soon.</p>
@@ -131,11 +129,24 @@ export default function Home() {
           </div>
 
           {!loading && featuredProducts.length > 0 ? (
-            <div className="product-grid">
-              {featuredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+            <motion.div 
+              className="product-grid"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.1 }}
+            >
+              {featuredProducts.map((product, index) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <ProductCard product={product} />
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           ) : !loading ? (
             <div className="empty-state-card">
               <p>New arrivals are on their way.</p>
@@ -144,38 +155,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. Trust / Store Benefits */}
-      <section className="store-section" style={{ paddingBottom: '0' }}>
-        <div className="store-container">
-          <div className="benefits-grid">
-            <div className="benefit-item">
-              <div className="benefit-item__icon"><Gem size={28} /></div>
-              <h3 className="benefit-item__title">Quality Footwear</h3>
-              <p className="benefit-item__text">Carefully selected styles for everyday wear.</p>
-            </div>
-            <div className="benefit-item">
-              <div className="benefit-item__icon"><Truck size={28} /></div>
-              <h3 className="benefit-item__title">Easy Availability</h3>
-              <p className="benefit-item__text">Browse the catalogue before visiting the store.</p>
-            </div>
-            <div className="benefit-item">
-              <div className="benefit-item__icon"><Heart size={28} /></div>
-              <h3 className="benefit-item__title">Trusted Service</h3>
-              <p className="benefit-item__text">Friendly in-store assistance when you visit.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       {/* 6. Visit Our Store / Location */}
       <section className="store-section">
         <div className="store-container">
           <div className="location-card">
-            <div className="location-grid">
+            <motion.div 
+              className="location-grid"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6 }}
+            >
               
               <div className="location-content">
                 <span className="location-content__badge">VISIT OUR STORE</span>
-                <h2 className="location-content__title">{shop?.name || 'Shoe Store'}</h2>
+                <h2 className="location-content__title">{shop?.name || 'JANATA Shoe Store'}</h2>
                 {shop?.tagline && (
                   <p className="location-content__tagline">
                     {shop.tagline}
@@ -212,7 +208,7 @@ export default function Home() {
                 ></iframe>
               </div>
 
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>

@@ -104,10 +104,10 @@ export default function BookNowModal({ product, shop, onClose }) {
         ? `https://www.google.com/maps/dir/?api=1&origin=${storeLat},${storeLng}&destination=${location.lat},${location.lng}&travelmode=two-wheeler`
         : '';
 
-      const message = `🛍️ *New Order from ${shop?.name || 'Shoe Store'}*
+      const message = `🛍️ *New Order from ${shop?.name || 'JANATA Shoe Store'}*
 =============================
 
-${shop?.name || 'Shoe Store'}
+${shop?.name || 'JANATA Shoe Store'}
 ${shop?.tagline || shop?.address || ''}
 
 =============================

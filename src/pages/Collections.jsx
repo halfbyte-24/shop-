@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Search, PackageX } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { catalogueService } from '../services/catalogueService';
 import ProductCard from '../components/product/ProductCard';
 
@@ -139,11 +140,23 @@ export default function Collections() {
             </button>
           </div>
         ) : filteredProducts.length > 0 ? (
-          <div className="product-grid">
-            {filteredProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
+          <motion.div 
+            className="product-grid"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ staggerChildren: 0.1 }}
+          >
+            {filteredProducts.map((product, index) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+              >
+                <ProductCard product={product} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         ) : (
           <div className="empty-state-large">
             <PackageX size={48} className="empty-state-large__icon" />

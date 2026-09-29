@@ -19,7 +19,9 @@ export default function PublicFooter() {
         <div className="store-footer__grid">
           {/* Column 1: Brand */}
           <div className="store-footer__col">
-            <div className="store-footer__brand">{shop?.name || 'Shoe Store'}</div>
+            <Link to="/" className="store-footer__brand" style={{ display: 'inline-block' }}>
+              <img src="/images/logo.png" alt={shop?.name || 'Janata Shoe Store'} className="store-footer__logo" />
+            </Link>
             <p className="store-footer__tagline">
               {shop?.tagline || 'Premium footwear designed for comfort and style.'}
             </p>
@@ -72,7 +74,7 @@ export default function PublicFooter() {
         {/* Bottom */}
         <div className="store-footer__bottom">
           <div className="store-footer__copyright">
-            &copy; {new Date().getFullYear()} {shop?.name || 'Shoe Store'}. All rights reserved.
+            &copy; {new Date().getFullYear()} {shop?.name || 'JANATA Shoe Store'}. All rights reserved.
           </div>
           {/* Deliberately omitted 'Powered by...' as per client-demo requirement */}
         </div>

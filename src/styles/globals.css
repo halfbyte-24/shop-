@@ -19,6 +19,24 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/new-bg-shoe.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.4; /* Increased opacity for a more prominent watermark */
+  mix-blend-mode: multiply; /* Ensures only the dark sketch lines show up sharply against the background */
+  z-index: -1;
+  pointer-events: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
