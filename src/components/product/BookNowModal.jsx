@@ -89,8 +89,6 @@ export default function BookNowModal({ product, shop, onClose }) {
         total: total
       };
 
-      await orderService.createOrder(orderData, orderItemData);
-
       // Prepare WhatsApp message
       const storeLat = shop?.theme_config?.latitude || '22.992212974316107';
       const storeLng = shop?.theme_config?.longitude || '88.45280213452367';
@@ -146,18 +144,20 @@ ${location ? `📍 *Customer Location*\n${mapsUrl}\n` : ''}
 🧾 *Receipt Link*
 ${receiptUrl}`;
 
-      const whatsappNumber = '919932156840';
+      let whatsappNumber = shop?.whatsapp || shop?.phone || '919932156840';
+      whatsappNumber = whatsappNumber.replace(/[^\d+]/g, '');
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
       
       // Open WhatsApp in a new tab
       window.open(whatsappUrl, '_blank');
       
-      // Navigate to receipt
-      window.location.href = `/receipt/${orderId}`;
+      // Close the modal instead of navigating to a broken receipt
+      onClose();
       
     } catch (error) {
       console.error("Order error:", error);
       alert("Something went wrong while placing the order.");
+    } finally {
       setSubmitting(false);
     }
   };
